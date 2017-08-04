@@ -3,13 +3,15 @@ package sockets.simples.atividade;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class RunServer {
 
 	public static void main(String[] args) throws IOException {
-		Set<String> ips = new HashSet<String>();
+		Map<String, String> ips = new HashMap<String, String>();
 		
 		String[] frases  = {
 				"1 - Não tinha medo o tal João de Santo Cristo",
@@ -34,11 +36,13 @@ public class RunServer {
 		int i = 0;
 		while (true) {
 			Socket conexao = serverSocket.accept();
-			if (ips.contains(conexao.getInetAddress().getHostAddress())) {
-				new Thread(new EnviaMensagem("Espertinho, você já recebeu a sua frase. Sossega o rabicó.", conexao)).start();
+			String hostAddress = conexao.getInetAddress().getHostAddress();
+			if (ips.containsKey(hostAddress)) {
+				new Thread(new EnviaMensagem(ips.get(hostAddress), conexao)).start();
 			} else {
-				ips.add(conexao.getInetAddress().getHostAddress());
-				new Thread(new EnviaMensagem(frases[i++], conexao)).start();
+				String frase = frases[i++];
+				ips.put(hostAddress, frase);
+				new Thread(new EnviaMensagem(frase, conexao)).start();
 			}
 		}
 	}
