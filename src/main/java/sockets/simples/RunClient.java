@@ -8,11 +8,12 @@ import java.net.UnknownHostException;
 
 public class RunClient {
 
+	@SuppressWarnings("resource")
 	public static void main(String[] args) throws UnknownHostException, IOException {
-		Socket socket = new Socket("localhost", 7070);
+		Socket socket = new Socket("localhost", 7030);
 		
-		OutputStream saida = socket.getOutputStream();
-		saida.write("Requisão Legal\n".getBytes());
+//		OutputStream saida = socket.getOutputStream();
+//		saida.write("Requisão Legal\n".getBytes());
 		
 		InputStream entrada = socket.getInputStream();
 		byte[] buffer = new byte[1];

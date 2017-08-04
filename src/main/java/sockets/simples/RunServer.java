@@ -10,7 +10,7 @@ public class RunServer {
 
 	public static void main(String[] args) throws IOException {
 		ServerSocket serverSocket = new ServerSocket(7070);
-		System.out.println("Coiso");
+
 		Socket conexao = serverSocket.accept();
 		InputStream entrada = conexao.getInputStream();
 		
